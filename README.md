@@ -1,131 +1,129 @@
 ## INTEGRANTES.
 | Nombre | Cargo | URL GitHub |
 |---|:---:|---:|
-| Daniel Alquinga | :technologist: Desarrollador | https://github.com/superdavi/Practica1_Grupo2.git |
-| Daniel Baldeon | :technologist: Desarrollador | https://github.com/debpdhs/Practica1_Grupo2 |
-| Bryan Miño | :technologist: Desarrollador |https://github.com/bmiomi/tareadocker |
-| Wilson Segovia | :technologist: Desarrollador | https://github.com/segoviawilson/Practica1_Grupo2.git|
-| Leonardo Tuguminago | :technologist: Desarrollador | https://github.com/Tuguminago/Proyectos.git |
+| Daniel Alquinga | :technologist: Desarrollador | https://github.com/superdavi/Practica2_Grupo2 |
+| Daniel Baldeon | :technologist: Desarrollador | https://github.com/debpdhs/Practica2_Grupo2.git |
+| Bryan Miño | :technologist: Desarrollador | https://github.com/bmiomi/tarea2-grupo2.git |
+| Wilson Segovia | :technologist: Desarrollador | https://github.com/segoviawilson/Practica2_Grupo2.git |
+| Leonardo Tuguminago | :technologist: Desarrollador | https://github.com/Tuguminago/Practica2_Grupo2.git |
 
-# 1. Sistema de Gestión de Vehículos con Docker
+# 1. Despliegue de PGADMIN con docker compose utilizando imágenes diferentes a las de las prácticas
 
-Este proyecto implementa un sistema de gestión de vehículos utilizando Docker, MySQL y phpMyAdmin. El sistema permite administrar propietarios y sus vehículos mediante una base de datos relacional.
+Este proyecto implementa el docker compose de una base de datos PostgreSQL y presenta su interfaz gráfica PGADMIN.
 
 ## 1.1. Arquitectura del Sistema
 
-- **MySQL 8.3**: Base de datos para almacenar información de propietarios y vehículos
-- **PhpMyAdmin 5.2.2**: Interfaz web para administración de la base de datos
-- **Docker Network**: Red personalizada para comunicación entre contenedores
-- **Volúmenes**: Gestionados por Docker y almacenados en /var/lib/docker/volumes/.
+- **Postgres 15.6**: Base de datos PostgreSQL y su version 15.6
+- **PGAdmin 4.8.10**: Interfaz web para administración de la base de datos
+- **Volúmenes**: Gestionados por Docker y almacenados en ./data/postgres:/var/lib/postgresql/data y ./data/pgadmin:/var/lib/pgadmin
 
 # 2. Configuración e Instalación
 
 ### PASO 1: 📂 Estructura de Archivos
 
 ```bash
-    Proyecto Vehículos
+    tree -a
+
+    Proyecto PGAdmin
     |
     |____ .env
     |____ README.md
-    |____ despliegues.txt
-    |____ init.sql
-```
-### PASO 2: Creación de Red Docker
-
----
-
-```bash
-docker network create --driver bridge netw-vehiculos
-docker network ls
+    |____ compose.yaml
 ```
 
 **Salida Esperada**
 
-<img width="886" height="213" alt="image" src="https://github.com/user-attachments/assets/08eda610-37bd-415f-aed4-d355f445a46b" />
+<img width="886" height="213" alt="image" src="https://github.com/user-attachments/assets/30092990-b98f-4862-9a16-e63e90436568" />
+
+### PASO 2: Creación del directorio para guardar data portable
+
+---
+
+```bash
+mkdir -p data/postgres data/pgadmin
+```
+
+**Salida Esperada**
+
+<img width="886" height="213" alt="image" src="https://github.com/user-attachments/assets/94ccd115-6d8b-4aee-b0b5-80aaa1fdca27" />
 
 **Explicación:**
 
-- Crea una red personalizada tipo `bridge` llamada `netw-vehiculos`
-- Permite comunicación entre contenedores por nombre
-- Aislamiento de red del resto del sistema
+- Permite la portabilidad de datos en dockers de bases de datos
     
-### PASO 3: Despliegue del Contenedor Docker MySQL
+### PASO 3: Listar y ver directorios creados
 
 ```bash
-docker run -d \
---name db-mysql-vehiculos \
---network netw-vehiculos \
---env-file .env \
--v mysql_data:/var/lib/mysql \
--v "$PWD"/init.sql:/docker-entrypoint-initdb.d/init.sql \
--p 3306:3306 \
-mysql:8.3
-```
-### Paso 3.1. Salida Esperada
+    tree -a
 
-<img width="725" height="443" alt="contenedor mysql" src="https://github.com/user-attachments/assets/407ce7d7-1577-4a08-a9e2-992a3385b065" />
+    Proyecto PGAdmin
+    |
+    |____ compose.yaml
+    |____ data
+            |____ pgadmin
+            |____ postgres
+    |____ .env
+    |____ README.md
+```
+**Salida Esperada**
+
+<img width="725" height="443" alt="directorio" src="https://github.com/user-attachments/assets/9e45efc1-708f-47d5-87a2-1a2215eb4e75" />
 
 **Explicación:**
 
-- **MySQL Container**: Crea un contenedor con MySQL 8.3, monta un volumen persistente para los datos y ejecuta un script de inicialización
-- **Network**: Ambos contenedores utilizan la red personalizada `netw-vehiculos`
-- **Volumes**: Persistencia de datos MySQL y script de inicialización
-- **Ports**: MySQL en puerto 3306, phpMyAdmin en puerto 3306
+- **Directorio**: Revisar el directorio creado y revisar los archivos que crearán el docker de PGAdmin
 
-### Paso 3.2. Verificar Estado Up del Contendor
+### PASO 4: Dar permisos 777 a carpeta pgadmin y postgres
 
 ```bash
-docker ps -a
+    sudo chmod 777 data/pgadmin
+    sudo chmod 777 data/postgres
 ```
 
-<img width="1224" height="108" alt="listamos contenedor creado de mysql" src="https://github.com/user-attachments/assets/c9d014fa-6ef5-4936-943c-a4581284d3e9" />
+**Salida Esperada**
 
-### PASO 4: Despliegue del Contenedor Docker PhpMyAdmin
-
-```bash
-docker run -d \
---name web_phpmyadmin_vehiculos \
---network netw-vehiculos \
---env-file .env \
--e PMA_HOST=db-mysql-vehiculos \
--p 8080:80 \
-phpmyadmin:5.2.2
-```
-
-### Paso 4.1. Salida Esperada
-
-<img width="676" height="597" alt="despliegue contendor php" src="https://github.com/user-attachments/assets/01e8072f-3d3d-4de2-8e9e-9a3265084f44" />
+<img width="725" height="443" alt="permisos chmod" src="https://github.com/user-attachments/assets/d7e3c045-7748-4835-9d6e-55b2b396d78a" />
 
 **Explicación:**
 
-- **phpMyAdmin Container**: Proporciona interfaz web conectada al contenedor MySQL
-- **Network**: Ambos contenedores utilizan la red personalizada `netw-vehiculos`
-- **Volumes**: Persistencia de datos MySQL y script de inicialización
-- **Ports**: MySQL en puerto 80, phpMyAdmin en puerto 8080
+- **Permisos requeridos**: Se debe dar permisos de escritura, lectura y ejecución a esta carpeta caso contrario no se ejecutará el docker porque necesita esos permisos para ejecutarse sin problema
+
+### PASO 5: Despliegue del Contenedor Docker PostgreSQL y PGAdmin
+
+```bash
+docker compose up -d
+```
+
+### Paso 5.1. Salida Esperada
+
+<img width="676" height="597" alt="despliegue contendor" src="https://github.com/user-attachments/assets/c3dffb42-5f0a-45e6-9dbc-80f6ecdb2394" />
+
+**Explicación:**
+
+- **PGAdmin Container**: Proporciona interfaz web conectada al contenedor PostgreSQL
+- **Ports**: PostgreSQL en puerto 5432, PGAdmin en puerto 8080
   
-### Paso 4.2. Verificar Estado Up del Contendor
+### Paso 5.2. Verificar Estado Up del Contendor
 
 ```bash
 docker ps -a
 ```
 
-<img width="1215" height="142" alt="listar los dos contendores" src="https://github.com/user-attachments/assets/9ae7e739-fa84-48d4-926e-d5ec933529b8" />
+<img width="1215" height="142" alt="listar los contendores" src="https://github.com/user-attachments/assets/5495871a-0490-47da-9926-addd2e48825e" />
 
-### PASO 5: Ingreso al Portal del Servidor PhpMyAdmin
+### PASO 5: Ingreso al Portal del Servidor PGAdmin
 
 ```bash
 http://localhost:8080
 ```
-
-![WhatsApp Image 2025-09-18 at 22 08 55](https://github.com/user-attachments/assets/ac27e52f-fec4-41c4-a693-28e36dffcc98)
-
+<img width="1215" height="142" alt="listar los contendores" src="https://github.com/user-attachments/assets/21b4ab97-51b8-48c0-9f07-68fff205b5bf" />
 
 ### PASO 6: Credenciales de Ingreso
 
 
 ```bash
-usuario: usuario
-password: clave123
+usuario: grupo2.mdmq@gmail.com
+password: DV353rhfU3
 ```
 
 
