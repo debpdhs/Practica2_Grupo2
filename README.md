@@ -130,7 +130,6 @@ password: DV353rhfU3
 <img width="1215" height="142" alt="ingresar pgadmin" src="https://github.com/user-attachments/assets/a7ce96cd-fec1-44a3-9ea2-03253bb58bc7" />
 
 ### PASO 8: Despliegue de PGAdmin
-![screen_09](https://github.com/user-attachments/assets/668c5124-8840-4d01-be98-ad2da48c6ef7)
 
 <img width="1275" height="705" alt="despliegue" src="https://github.com/user-attachments/assets/668c5124-8840-4d01-be98-ad2da48c6ef7" />
 
