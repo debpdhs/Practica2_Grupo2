@@ -109,14 +109,14 @@ docker compose up -d
 docker ps -a
 ```
 
-<img width="1215" height="142" alt="listar los contendores" src="https://github.com/user-attachments/assets/5495871a-0490-47da-9926-addd2e48825e" />
+<img width="1275" height="705" alt="listar los contendores" src="https://github.com/user-attachments/assets/5495871a-0490-47da-9926-addd2e48825e" />
 
 ### PASO 6: Ingreso al Portal del Servidor PGAdmin
 
 ```bash
 http://localhost:8080
 ```
-<img width="1215" height="142" alt="listar los contendores" src="https://github.com/user-attachments/assets/21b4ab97-51b8-48c0-9f07-68fff205b5bf" />
+<img width="1275" height="705" alt="listar los contendores" src="https://github.com/user-attachments/assets/21b4ab97-51b8-48c0-9f07-68fff205b5bf" />
 
 ### PASO 7: Credenciales de Ingreso
 
@@ -127,7 +127,7 @@ password: DV353rhfU3
 ```
 **Salida Esperada**
 
-<img width="1215" height="142" alt="ingresar pgadmin" src="https://github.com/user-attachments/assets/a7ce96cd-fec1-44a3-9ea2-03253bb58bc7" />
+<img width="1275" height="705" alt="ingresar pgadmin" src="https://github.com/user-attachments/assets/a7ce96cd-fec1-44a3-9ea2-03253bb58bc7" />
 
 ### PASO 8: Despliegue de PGAdmin
 
@@ -169,22 +169,13 @@ docker rm postgres_db pgadmin4
 
 # 3. Conclusiones
 
-**Logros Alcanzados**
-
 - Implementación Exitosa: Se logró configurar un sistema distribuido utilizando Docker, separando la base de datos (PostgreSQL) de la interfaz de administración (PGAdmin) en contenedores independientes.
 - Uso de Docker Compose: Creacion de un solo archivo donde se incluyen todas las sentencias para la creación de uno o más docker con sus configuraciones .
 - Separación de Configuración: El archivo .env, centraliza las variables sensibles, mejorando la seguridad y facilitando el despliegue en diferentes ambientes.
 
-**Beneficios Obtenidos**
+# 4. Recomendaciones
 
-- Portabilidad: aaaaaa
-- Escalabilidad: bbbbbb
-- Mantenibilidad: ccccc
-- Aislamiento: dddddd
-- Reproducibilidad: eeeeeeee
-
-
-# 4. Recomendaciones.
-
- - 111111111111111111
- - 2222222222222222222222222
+ - Es importante verificar los permisos de las carpetas ya que estas muchas veces no cuentan con permisos de lectura, escritura y ejecución, por lo que hay que darles permisos con los comandos CHMOD y las variables del 777.
+ - Revisar los puertos habilitados para la ejecución del contenedor, evitando conflictos al momento del despliegue.
+ - Se utilizaron volumnenes para hacerle portable el contenedor debido a que Bind Mount no permite portabilidad.
+ - Con Docker Compose puedes levantar, administrar y escalar múltiples contenedores con un solo archivo (docker-compose.yml), en lugar de ejecutar manualmente docker run para cada servicio.
