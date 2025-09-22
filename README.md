@@ -5,7 +5,7 @@
 | Daniel Baldeon | :technologist: Desarrollador | https://github.com/debpdhs/Practica2_Grupo2.git |
 | Bryan Miño | :technologist: Desarrollador | https://github.com/bmiomi/tarea2-grupo2.git |
 | Wilson Segovia | :technologist: Desarrollador | https://github.com/segoviawilson/Practica2_Grupo2.git |
-| Leonardo Tuguminago | :technologist: Desarrollador | https://github.com/ltuguminago/fastapi-app.git |
+| Leonardo Tuguminago | :technologist: Desarrollador | https://github.com/Tuguminago/Practica2_Grupo2.git |
 
 # 1. Despliegue de PGADMIN con docker compose utilizando imágenes diferentes a las de las prácticas
 
